@@ -1,5 +1,1 @@
-from .simple_linear import plot_simple_linear
-from .resistance_linear import plot_resistance_linear
-from .simple_exponential import plot_simple_exponential
-from .simple_fluid import plot_simple_fluid
-from .resistance_fluid import plot_resistance_fluid
+from . import mass_loss
