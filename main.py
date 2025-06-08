@@ -3,6 +3,7 @@ from mass_loss import mass_loss
 from basic import basic
 import numpy as np
 
+g = 9.81
 mu = 0.001
 mb = 1
 ms0 = 2
@@ -18,18 +19,25 @@ Ay = 1/9
 psix = 0
 psiy = 0
 
-beta = 0.01
+x0 = 1
+y0 = 1
+vx0 = 0
+vy0 = 0
+
+beta = 0.1
+#beta = 10
+#beta = 0
 
 start_t = 0
-end_t = 10
+end_t = 20
 num_data_pt = 1000
 
 alpha = 1/(rho * np.pi * a**2)
 
-basic.plot_basic_drag(lx, ly, Ax, Ay, psix, psiy, ms0 + mb, beta, end_t, num_data_pt)
-mass_loss.plot_linear(lx, ly, Ax, Ay, psix, psiy, mb, ms0, q, beta, b, alpha, start_t, end_t, num_data_pt)
-mass_loss.plot_exp(lx, ly, Ax, Ay, psix, psiy, mb, ms0, q, beta, b, alpha, start_t, end_t, num_data_pt)
-mass_loss.plot_fluid(lx, ly, Ax, Ay, psix, psiy, mb, ms0, q, beta, mu, rho, a, b, aeff, alpha, start_t, end_t, num_data_pt)
+basic.plot_basic_drag(lx, ly, x0, y0, vx0, vy0, ms0 + mb, beta, g, start_t, end_t, num_data_pt)
+mass_loss.plot_linear(lx, ly, x0, y0, vx0, vy0, mb, ms0, q, beta, b, alpha, g, start_t, end_t, num_data_pt)
+#mass_loss.plot_exp(lx, ly, Ax, Ay, psix, psiy, mb, ms0, q, beta, b, alpha, start_t, end_t, num_data_pt)
+#mass_loss.plot_fluid(lx, ly, Ax, Ay, psix, psiy, mb, ms0, q, beta, mu, rho, a, b, aeff, alpha, start_t, end_t, num_data_pt)
 
 plt.legend()
 plt.xlabel("x")
