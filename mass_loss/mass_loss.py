@@ -24,18 +24,13 @@ def get_h(ms, mb, b, alpha):
     return ((mb * b) + (alpha * (ms**2)))/(2*(mb + ms))
 
 def get_w_underdamp(M, l, b, h, beta, g):
-
-    #return 1/(2*M) * ((4 * M**2 * g)/(l + b) - beta)**(1/2)
-    #return 1/(2*M) * ((4 * M**2 * g)/(l + (b/2)) - beta**2)**(1/2)
     return 1/(2*M) * ((4 * M**2 * g)/(l + b - h) - beta**2)**(1/2)
 
 def get_w1_overdamp(M, l, b, h, beta, g):
     return (- beta - (beta**2 - ((4 * M**2 * g)/(l + b - h)))**(1/2)) / (2*M)
-    #return (- beta + (beta**2 - ((4 * M**2 * g)/l))**(1/2))/ (2*M)
 
 def get_w2_overdamp(M, l, b, h, beta, g):
     return (- beta + (beta**2 - ((4 * M**2 * g)/(l + b - h)))**(1/2)) / (2*M)
-    #return (- beta - (beta**2 - ((4 * M**2 * g)/l))**(1/2))/ (2*M)
 
 def get_ordinate_underdamp(t, A, B, beta, M, w):
     return np.exp(-beta/(2*M) * t) * ((A * np.cos(w * t)) + (B * np.sin(w * t)))
@@ -131,5 +126,5 @@ def plot_fluid(lx:float, ly:float, x0:float, y0:float, vx0:float, vy0:float, mb:
     t_array = np.linspace(start_t, end_t, num_data_pt)
     ms_array = get_fluid_ms(t_array, ms0, mu, a, rho, aeff, max_t)
     __plot_mass_loss_underdamp(lx, ly, x0, y0, vx0, vy0, mb, ms0, q, beta, b, alpha, t_array, ms_array, "fluid", g)
-    #__plot_mass_loss_underdamp(lx, ly, Ax, Ay, psix, psiy, mb, ms0, q, beta, b, alpha, t_array, ms_array, "fluid", g)
+
 
