@@ -12,7 +12,7 @@ def get_w2_overdamp(M, l, beta, g, discriminant):
     return (- beta - discriminant**(1/2))/ (2*M)
 
 def get_ordinate_underdamp(t, A, B, w, beta, M):
-    return A * np.exp(-beta/(2*M) * t) * ((A * np.cos(w * t)) + (B * np.sin(w * t)))
+    return np.exp(-beta/(2*M) * t) * ((A * np.cos(w * t)) + (B * np.sin(w * t)))
 
 def get_ordinate_crit_damp(t, A, B, beta, M):
     return (A + Bt) * np.exp(-beta/(2*M) * t)

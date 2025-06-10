@@ -3,6 +3,8 @@ import numpy as np
 
 
 def get_linear_ms(t, ms0, q):
+    if t > ms0/q:
+        return 0
     return ms0 - (q*t)
 
 def get_exp_ms(t, ms0, q):
@@ -24,6 +26,7 @@ def get_h(ms, mb, b, alpha):
 def get_w_underdamp(M, l, b, h, beta, g):
 
     #return 1/(2*M) * ((4 * M**2 * g)/(l + b) - beta)**(1/2)
+    #return 1/(2*M) * ((4 * M**2 * g)/(l + (b/2)) - beta**2)**(1/2)
     return 1/(2*M) * ((4 * M**2 * g)/(l + b - h) - beta**2)**(1/2)
 
 def get_w1_overdamp(M, l, b, h, beta, g):
@@ -35,7 +38,7 @@ def get_w2_overdamp(M, l, b, h, beta, g):
     #return (- beta - (beta**2 - ((4 * M**2 * g)/l))**(1/2))/ (2*M)
 
 def get_ordinate_underdamp(t, A, B, beta, M, w):
-    return A * np.exp(-beta/(2*M) * t) * ((A * np.cos(w * t)) + (B * np.sin(w * t)))
+    return np.exp(-beta/(2*M) * t) * ((A * np.cos(w * t)) + (B * np.sin(w * t)))
 
 def get_ordinate_crit_damp(t, A, B, beta, M, w):
     return (A + (B*t)) * np.exp(-beta/(2*M) * t)
@@ -65,7 +68,7 @@ def __plot_mass_loss_underdamp(lx:float, ly:float, x0:float, y0:float, vx0:float
     wy_array = get_w_underdamp(M_array, ly, b, h_array, beta, g)
 
     Ax = x0
-    Bx = (vx0 + ((Ax * beta)/(2 * M_array[0]))) / (wx_array[0])
+    Bx = (vx0 + ((Ax * beta)/(2 * M_array[0]))) / (wx_array[0]) 
     Ay = y0
     By = (vy0 + ((Ay * beta)/(2 * M_array[0]))) / (wy_array[0])
 
@@ -115,7 +118,7 @@ def __plot_mass_loss_overdamp(lx:float, ly:float, x0:float, y0:float, vx0:float,
 def plot_linear(lx:float, ly:float, x0:float, y0:float, vx0:float, vy0:float, mb:float, ms0:float, q:float, beta:float, b:float, alpha:float, g, start_t:int, end_t:int, num_data_pt:int):
     t_array = np.linspace(start_t, end_t, num_data_pt)
     ms_array = get_linear_ms(t_array, ms0, q)
-    __plot_mass_loss_underdamp(lx, ly, x0, y0, vx0, vy0, mb, ms0, q, beta, b, alpha, t_array, ms_array, "linear", g)
+    __plot_mass_loss_underdamp(lx, ly, x0, y0, vx0, vy0, mb, ms0, q, beta, b, alpha, t_array, ms_array, f"linear", g)
 
 def plot_exp(lx:float, ly:float, x0:float, y0:float, vx0:float, vy0:float, mb:float, ms0:float, q:float, beta:float, b:float, alpha:float, g, start_t:int, end_t:int, num_data_pt:int):
     t_array = np.linspace(start_t, end_t, num_data_pt)
@@ -123,9 +126,10 @@ def plot_exp(lx:float, ly:float, x0:float, y0:float, vx0:float, vy0:float, mb:fl
     __plot_mass_loss_underdamp(lx, ly, x0, y0, vx0, vy0, mb, ms0, q, beta, b, alpha, t_array, ms_array, "exp", g)
 
 
-def plot_fluid(lx:float, ly:float, x0:float, y0:float, vx0:float, vy0:float, mb:float, ms0:float, q:float, beta:float, b:float, alpha:float, g, start_t:int, end_t:int, num_data_pt:int):
+def plot_fluid(lx:float, ly:float, x0:float, y0:float, vx0:float, vy0:float, mb:float, ms0:float, q:float, beta:float, mu:float, rho:float, a:float, b:float, aeff:float, alpha:float, g, start_t:int, end_t:int, num_data_pt:int):
     max_t = (2 * (ms0)**(1/2))/(mu * a * (2 * rho * np.pi * aeff)**(1/2))
     t_array = np.linspace(start_t, end_t, num_data_pt)
     ms_array = get_fluid_ms(t_array, ms0, mu, a, rho, aeff, max_t)
-    __plot_mass_loss_underdamp(lx, ly, Ax, Ay, psix, psiy, mb, ms0, q, beta, b, alpha, t_array, ms_array, "fluid", g)
+    __plot_mass_loss_underdamp(lx, ly, x0, y0, vx0, vy0, mb, ms0, q, beta, b, alpha, t_array, ms_array, "fluid", g)
+    #__plot_mass_loss_underdamp(lx, ly, Ax, Ay, psix, psiy, mb, ms0, q, beta, b, alpha, t_array, ms_array, "fluid", g)
 
