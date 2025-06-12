@@ -24,6 +24,7 @@ def get_h(ms, mb, b, alpha):
     return ((mb * b) + (alpha * (ms**2)))/(2*(mb + ms))
 
 def get_w_underdamp(M, l, b, h, beta, g):
+    #return 1/(2*M) * ((4 * M**2 * g)/(l) - beta**2)**(1/2)
     return 1/(2*M) * ((4 * M**2 * g)/(l + b - h) - beta**2)**(1/2)
 
 def get_w1_overdamp(M, l, b, h, beta, g):
@@ -66,6 +67,7 @@ def __plot_mass_loss_underdamp(lx:float, ly:float, x0:float, y0:float, vx0:float
     Bx = (vx0 + ((Ax * beta)/(2 * M_array[0]))) / (wx_array[0]) 
     Ay = y0
     By = (vy0 + ((Ay * beta)/(2 * M_array[0]))) / (wy_array[0])
+
 
     x_array = get_ordinate_underdamp(t_array, Ax, Bx, beta, M_array, wx_array)
     y_array = get_ordinate_underdamp(t_array, Ay, By, beta, M_array, wy_array)
